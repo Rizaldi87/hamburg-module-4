@@ -2,22 +2,25 @@
 import React, { useState } from "react";
 
 function FormComponents() {
-  const [name, setName] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
-  const handleChangeName = (event) => {
+  const handleChange = (event) => {
     console.log("event", event);
-    setName(event.target.value);
+    // const { name, value } = event.target;
+
+    setFormData((prevData) => ({
+      ...prevData, // memastikan sebelum mendapat data yang baru, data yang lama tetap sesuai
+      [event.target.name]: event.target.value,
+    }));
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("clicked submit", name, email, password);
-
-    setName("");
-    setEmail("");
-    setPassword("");
+    console.log("clicked submit", formData);
   };
 
   return (
@@ -26,21 +29,24 @@ function FormComponents() {
       <form onSubmit={handleSubmit}>
         <input
           type="text"
-          value={name}
+          value={formData.name}
+          name="name"
           placeholder="type name here"
-          onChange={handleChangeName}
+          onChange={handleChange}
         />
         <input
           type="email"
-          value={email}
+          name="email"
+          value={formData.email}
           placeholder="type email here"
-          onChange={(event) => setEmail(event.target.value)}
+          onChange={handleChange}
         />
         <input
           type="password"
-          value={password}
+          name="password"
+          value={formData.password}
           placeholder="type password here"
-          onChange={(event) => setPassword(event.target.value)}
+          onChange={handleChange}
         />
         <button>Submit</button>
       </form>
